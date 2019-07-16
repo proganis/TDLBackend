@@ -44,6 +44,36 @@ const postuser = (req, res,next) => {
     });
 }
 
+//test
+ // Create a new user
+ const postuser2 = (req, res,next) => {
+    // Create a new user
+    try {
+        const usersavedata = new usermodel(req.body)
+        usersavedata.save()
+        const token = usermodel.generateAuthToken()
+        res.status(201).send({ user, token })
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+//test end
+
+const userlogin=(req,res,next)=>{
+    //Login a registered user
+    try {
+        const { email, password } = req.body
+        const user = usermodel.findByCredentials(email, password)
+        if (!user) {
+            return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+        }
+        const token = usermodel.generateAuthToken()
+        res.send({ usermodel, token })
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
 const getUserbyId=(req,res,next)=>{
     var idtext=req.params._Id;
     console.log(idtext);
@@ -133,4 +163,4 @@ const userupdatebyId=(req,res,next)=>{
 // exports.delete = (req, res) => {
 
 // };
-module.exports={postuser,getAllUserController,getUserbyId,deleteUserbyId,userupdatebyId}
+module.exports={postuser,postuser2,getAllUserController,getUserbyId,deleteUserbyId,userupdatebyId,userlogin}

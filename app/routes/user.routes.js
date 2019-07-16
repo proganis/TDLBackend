@@ -5,6 +5,10 @@ const usercontroller = require('../controllers/user.controller');
 
 //post a user
 router.post('/createuser',usercontroller.postuser)
+router.post('/createuser2',usercontroller.postuser2)
+
+//user login
+router.post('/login',usercontroller.userlogin)
 
 // get all user
 router.get('/',usercontroller.getAllUserController)
