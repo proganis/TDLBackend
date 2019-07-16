@@ -31,9 +31,11 @@ mongoose.connect(siteurl, {
 
 const deptroute=require('./app/routes/dept.routes');
 const userroute=require('./app/routes/user.routes');
+const contactroute=require('./app/routes/contact.routes');
 
 app.use('/api/departments',deptroute);
-app.use('/api/users',userroute);  
+app.use('/api/users',userroute);
+app.use('/api/contacts',contactroute);  
   
 // const port = process.env.PORT;
 // const siteurl=process.env.MONGODB_URL;
