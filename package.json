@@ -25,8 +25,10 @@
     "env-cmd": "^9.0.3",
     "nodemon": "^1.19.1"
   },
+  "engines": {
+    "node": "10.15.3"
+  },
   "dependencies": {
-    "node": "10.15.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
