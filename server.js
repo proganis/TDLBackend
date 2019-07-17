@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors=require('cors');
 const morgan=require('morgan');
+const path=require('path');
 const app = express();
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -13,15 +14,15 @@ const dbConfig = require('./config/database.config.js');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const port = process.env.PORT;
-const siteurl=process.env.MONGODB_URL;
-console.log(siteurl);
+//const port = process.env.PORT;
+//const siteurl=process.env.MONGODB_URL;
+//console.log(siteurl);
 // Connecting to the database
-//mongoose.connect(dbConfig.url, {
-mongoose.connect(siteurl, {
+const port=3000;
+mongoose.connect(dbConfig.url, {
+//mongoose.connect(siteurl, {
     useNewUrlParser: true
 }).then(() => {
-    console.log()
     console.log("Successfully connected to the database");    
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
@@ -35,7 +36,14 @@ const contactroute=require('./app/routes/contact.routes');
 
 app.use('/api/departments',deptroute);
 app.use('/api/users',userroute);
-app.use('/api/contacts',contactroute);  
+app.use('/api/contacts',contactroute);
+
+if(process.env.NODE_ENV==='production'){
+    app.use(express.static('client/build'))
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname))
+    })
+}  
   
 // const port = process.env.PORT;
 // const siteurl=process.env.MONGODB_URL;
@@ -46,7 +54,7 @@ app.use('/api/contacts',contactroute);
 // });
 
 app.listen(port, () => {
-    console.log(port);
+    //console.log(port);
     console.log(`Server running on port ${port}`);
 });
 
